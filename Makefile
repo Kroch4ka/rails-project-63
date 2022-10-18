@@ -5,7 +5,7 @@ autocorrect:
 	rubocop -A .
 
 lint:
-	rubocop .
+	bundle exec rubocop
 
 test:
-	rake test
+	bundle exec rake test
