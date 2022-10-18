@@ -2,6 +2,7 @@
 
 require_relative "hexlet_code/version"
 
+# Realize form generator
 module HexletCode
   class Error < StandardError; end
 
@@ -31,5 +32,11 @@ module HexletCode
     def self.process_double_tags(name, params = {})
       %(<#{name} #{process_params(params)}>#{yield if block_given?}</#{name}>)
     end
+  end
+
+  def self.form_for(_entity, url: nil)
+    raise RuntimeError unless sblock_given?
+
+    Tag.build("form", action: url || "#", method: "post")
   end
 end
