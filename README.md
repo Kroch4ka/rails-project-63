@@ -19,8 +19,16 @@ Or install it yourself as:
     $ gem install hexlet_code
 
 ## Usage
+```ruby
+User = Struct.new(:name, :surname)
+user = User.new("First", "Second")
+    HexletCode.form_for user do |f|
+      f.input :name
+      f.input :surname, as: :text
+    end
 
-## Development
+#=> <form action="#" method="POST"><input type="text" name="name" value="Nikita"><textarea cols="50" rows="50" name="surname" value="Golubev"></textarea></form>
+```
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
