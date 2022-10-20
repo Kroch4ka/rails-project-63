@@ -9,7 +9,7 @@ module HexletCode
   # Build HTML tag with params
   class Tag
     SINGLE = %w[img input br area base meta source].freeze
-    DOUBLE = %w[div form p textarea].freeze
+    DOUBLE = %w[div form p textarea label].freeze
 
     private_constant :SINGLE, :DOUBLE
 
@@ -75,7 +75,12 @@ module HexletCode
     def input(entity_field, params = {})
       tag_name = params[:as] || :input
       params[:name], params[:value] = parse_entity entity_field
+      inner_elements << element_builder(:label, { for: params[:name] }) { params[:name] }
       inner_elements << element_builder(tag_name, params.except(*EXCEPTED_PARAMS))
+    end
+
+    def submit(text = "Save", _params = {})
+      inner_elements << element_builder(:submit, value: text, type: "submit")
     end
 
     private
@@ -90,10 +95,12 @@ module HexletCode
       [field_name.to_s, entity.public_send(field_name)]
     end
 
-    def element_builder(tag_name, params = {})
+    def element_builder(tag_name, params = {}, &block)
       case tag_name
       when :text then Tag.build("textarea", set_default_params(params, DEFAULT_PARAMS[:textarea]))
       when :input then Tag.build("input", set_default_params(params, DEFAULT_PARAMS[:input]))
+      when :submit then Tag.build("input", params)
+      when :label then Tag.build("label", params) { block.call if block_given? }
       else
         raise "unexpected tag name"
       end
