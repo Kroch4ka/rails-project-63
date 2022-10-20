@@ -36,7 +36,7 @@ class TestHexletCode < Minitest::Test
   def test_double_tags_with_block_build
     assert { HexletCode::Tag.build("div") { 23 } == %(<div>23</div>) }
   end
-  
+
   def test_reject_unknown_second_args_build
     assert_raises(RuntimeError) { HexletCode::Tag.build("div", 1) }
   end
@@ -50,7 +50,7 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_with_empty_block_form_for
-    form = HexletCode.form_for(@test_user) { }
+    form = HexletCode.form_for(@test_user) {}
 
     assert { form == %(<form action="#" method="POST"></form>) }
   end
@@ -69,12 +69,16 @@ class TestHexletCode < Minitest::Test
       f.input :surname, as: :text
     end
 
-    assert { form == %(<form action="#" method="POST"><input type="text" name="name" value="Nikita"><textarea cols="50" rows="50" name="surname" value="Golubev"></textarea></form>) }
+    assert do
+      form == "<form action=\"#\" method=\"POST\">"\
+                    "<input type=\"text\" name=\"name\" value=\"Nikita\">"\
+                    "<textarea cols=\"50\" rows=\"50\" name=\"surname\" value=\"Golubev\">"\
+                    "</textarea></form>"
+    end
   end
 
   def test_form_params_form_for
     form = HexletCode.form_for @test_user, url: "hash" do |f|
-
     end
 
     assert { form == %(<form action="hash" method="POST"></form>) }
