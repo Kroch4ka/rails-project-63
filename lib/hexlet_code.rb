@@ -70,7 +70,7 @@ module HexletCode
 
     def build(params = {})
       params = set_default_params(params, DEFAULT_PARAMS[:form])
-      params[:method] = params[:method].upcase
+      submit if inner_elements.empty?
 
       Tag.build("form", params) { @inner_elements.join }
     end
@@ -122,8 +122,4 @@ end
 User = Struct.new(:name, :surname)
 user = User.new("Nikita", "Golubev")
 
-form = HexletCode.form_for(user, { action: '#', method: 'post' }) do |f|
-  f.submit
-end
-
-puts form
+puts HexletCode.form_for(user) {}
