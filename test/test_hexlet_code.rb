@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class TestHexletCode < Minitest::Test
   User = Struct.new(:name, :surname)
 
   def setup
-    @test_user = User.new("Nikita", "Golubev")
+    @test_user = User.new('Nikita', 'Golubev')
   end
 
   def test_that_it_has_a_version_number
@@ -14,31 +14,31 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_reject_unknown_tag_build
-    assert_raises(RuntimeError) { HexletCode::Tag.build("unknown") }
+    assert_raises(RuntimeError) { HexletCode::Tag.build('unknown') }
   end
 
   def test_single_tag_build
-    assert { HexletCode::Tag.build("img") == %(<img>) }
+    assert { HexletCode::Tag.build('img') == %(<img>) }
   end
 
   def test_single_tag_with_params_build
-    assert { HexletCode::Tag.build("img", class: "my_class", src: "https://img.com") == %(<img class="my_class" src="https://img.com">) }
+    assert { HexletCode::Tag.build('img', class: 'my_class', src: 'https://img.com') == %(<img class="my_class" src="https://img.com">) }
   end
 
   def test_double_tags_build
-    assert { HexletCode::Tag.build("div") == %(<div></div>) }
+    assert { HexletCode::Tag.build('div') == %(<div></div>) }
   end
 
   def test_double_tags_with_params_build
-    assert { HexletCode::Tag.build("div", class: "my_class") == %(<div class="my_class"></div>) }
+    assert { HexletCode::Tag.build('div', class: 'my_class') == %(<div class="my_class"></div>) }
   end
 
   def test_double_tags_with_block_build
-    assert { HexletCode::Tag.build("div") { 23 } == %(<div>23</div>) }
+    assert { HexletCode::Tag.build('div') { 23 } == %(<div>23</div>) }
   end
 
   def test_reject_unknown_second_args_build
-    assert_raises(RuntimeError) { HexletCode::Tag.build("div", 1) }
+    assert_raises(RuntimeError) { HexletCode::Tag.build('div', 1) }
   end
 
   def test_reject_not_given_block_form_for
@@ -61,9 +61,9 @@ class TestHexletCode < Minitest::Test
     end
 
     assert do
-      form.eql? "<form action=\"#\" method=\"post\">"\
-      "<label for=\"name\">name</label"
-      "<input type=\"text\" name=\"name\" value=\"Nikita\"></form>"
+      form.eql? '<form action="#" method="post">'\
+      '<label for="name">name</label'
+      '<input type="text" name="name" value="Nikita"></form>'
     end
   end
 
@@ -73,15 +73,15 @@ class TestHexletCode < Minitest::Test
     end
 
     assert do
-      form.eql? "<form action=\"#\" method=\"post\">"\
-                    "<label for=\"surname\">surname</label>"
-      "<textarea cols=\"20\" rows=\"40\" name=\"surname\" value=\"Golubev\">"\
-      "</textarea></form>"
+      form.eql? '<form action="#" method="post">'\
+                    '<label for="surname">surname</label>'
+      '<textarea cols="20" rows="40" name="surname" value="Golubev">'\
+      '</textarea></form>'
     end
   end
 
   def test_params_form_for
-    form = HexletCode.form_for @test_user, url: "hash" do |f|
+    form = HexletCode.form_for @test_user, url: 'hash' do |f|
     end
 
     assert { form == %(<form action="hash" method="post"></form>) }
@@ -91,8 +91,8 @@ class TestHexletCode < Minitest::Test
     form = HexletCode.form_for @test_user, &:submit
 
     assert do
-      form == "<form action=\"#\" method=\"post\">"\
-              "<input value=\"Save\" type=\"submit\"></form>"
+      form == '<form action="#" method="post">'\
+              '<input value="Save" type="submit"></form>'
     end
   end
 end

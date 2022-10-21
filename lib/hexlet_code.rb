@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "hexlet_code/version"
+require_relative 'hexlet_code/version'
 
 # Realize form generator
 module HexletCode
@@ -14,19 +14,19 @@ module HexletCode
     private_constant :SINGLE, :DOUBLE
 
     def self.build(name, params = {}, &block)
-      raise "I dont know this tag" unless SINGLE.include?(name) || DOUBLE.include?(name)
-      raise "Is not hash!" unless params.instance_of?(Hash)
+      raise 'I dont know this tag' unless SINGLE.include?(name) || DOUBLE.include?(name)
+      raise 'Is not hash!' unless params.instance_of?(Hash)
 
       return process_single_tags(name, params) if SINGLE.include? name
       return process_double_tags(name, params, &block) if DOUBLE.include? name
     end
 
     def self.process_params(params = {})
-      return "" if params.empty?
+      return '' if params.empty?
 
       params.keys.map do |key|
-        params[key] ? %(#{key}="#{params[key]}") : ""
-      end.join(" ").prepend(" ")
+        params[key] ? %(#{key}="#{params[key]}") : ''
+      end.join(' ').prepend(' ')
     end
 
     def self.process_single_tags(name, params = {})
@@ -42,15 +42,15 @@ module HexletCode
   class FormBuilder
     DEFAULT_PARAMS = {
       form: {
-        action: "#",
-        method: "post"
+        action: '#',
+        method: 'post'
       }.freeze,
       input: {
-        type: "text"
+        type: 'text'
       }.freeze,
       textarea: {
-        cols: "20",
-        rows: "40"
+        cols: '20',
+        rows: '40'
       }.freeze
     }.freeze
 
@@ -71,7 +71,7 @@ module HexletCode
     def build(params = {})
       params = set_default_params(params, DEFAULT_PARAMS[:form])
 
-      Tag.build("form", params) { @inner_elements.join }
+      Tag.build('form', params) { @inner_elements.join }
     end
 
     def input(entity_field, params = {})
@@ -81,8 +81,8 @@ module HexletCode
       inner_elements << element_builder(tag_name, params.except(*EXCEPTED_PARAMS))
     end
 
-    def submit(text = "Save", _params = {})
-      inner_elements << element_builder(:submit, value: text, type: "submit")
+    def submit(text = 'Save', _params = {})
+      inner_elements << element_builder(:submit, value: text, type: 'submit')
     end
 
     private
@@ -99,12 +99,12 @@ module HexletCode
 
     def element_builder(tag_name, params = {}, &block)
       case tag_name
-      when :text then Tag.build("textarea", set_default_params(params, DEFAULT_PARAMS[:textarea]))
-      when :input then Tag.build("input", set_default_params(params, DEFAULT_PARAMS[:input]))
-      when :submit then Tag.build("input", params)
-      when :label then Tag.build("label", params) { block.call if block_given? }
+      when :text then Tag.build('textarea', set_default_params(params, DEFAULT_PARAMS[:textarea]))
+      when :input then Tag.build('input', set_default_params(params, DEFAULT_PARAMS[:input]))
+      when :submit then Tag.build('input', params)
+      when :label then Tag.build('label', params) { block.call if block_given? }
       else
-        raise "unexpected tag name"
+        raise 'unexpected tag name'
       end
     end
 
@@ -112,7 +112,7 @@ module HexletCode
   end
 
   def self.form_for(entity, params = {}, &block)
-    raise "Block not given" unless block_given?
+    raise 'Block not given' unless block_given?
 
     FormBuilder.new(entity, &block).build(params)
   end
