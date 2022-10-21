@@ -41,18 +41,12 @@ class TestHexletCode < Minitest::Test
     assert_raises(RuntimeError) { HexletCode::Tag.build('div', 1) }
   end
 
-  def test_reject_not_given_block_form_for
-    assert_raises(RuntimeError) { HexletCode.form_for @test_user }
-  end
-
   def test_reject_not_exist_field_form_for
     assert_raises(NoMethodError) { HexletCode.form_for(@test_user) { |f| f.input :test } }
   end
 
   def test_with_empty_block_form_for
-    form = HexletCode.form_for(@test_user) do
-
-    end
+    form = HexletCode.form_for(@test_user)
 
     assert { form == %(<form action="#" method="post"></form>) }
   end
@@ -65,7 +59,7 @@ class TestHexletCode < Minitest::Test
     assert do
       form.eql? '<form action="#" method="post">' \
                 '<label for="name">name</label'
-                '<input type="text" name="name" value="Nikita"></form>'
+      '<input type="text" name="name" value="Nikita"></form>'
     end
   end
 
@@ -76,7 +70,7 @@ class TestHexletCode < Minitest::Test
 
     assert do
       form.eql? '<form action="#" method="post">' \
-                '<label for="surname">surname</label>'
+                '<label for="surname">surname</label>' \
                 '<textarea cols="20" rows="40" name="surname" value="Golubev">' \
                 '</textarea></form>'
     end

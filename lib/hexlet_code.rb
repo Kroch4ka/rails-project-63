@@ -112,8 +112,6 @@ module HexletCode
   end
 
   def self.form_for(entity, params = {})
-    raise 'Block not given' unless block_given?
-
     FormBuilder.new(entity) { |f| yield(f) if block_given? }.build(params)
   end
 end
