@@ -69,7 +69,10 @@ module HexletCode
     end
 
     def build(params = {})
-      Tag.build("form", set_default_params(params, DEFAULT_PARAMS[:form])) { @inner_elements.join }
+      params = set_default_params(params, DEFAULT_PARAMS[:form])
+      params[:method] = params[:method].upcase
+
+      Tag.build("form", params) { @inner_elements.join }
     end
 
     def input(entity_field, params = {})
@@ -115,3 +118,12 @@ module HexletCode
     FormBuilder.new(entity, &block).build(params)
   end
 end
+
+User = Struct.new(:name, :surname)
+user = User.new("Nikita", "Golubev")
+
+form = HexletCode.form_for(user, { action: '#', method: 'post' }) do |f|
+  f.submit
+end
+
+puts form
