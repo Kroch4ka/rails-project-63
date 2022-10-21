@@ -62,10 +62,10 @@ module HexletCode
 
     private_constant :EXCEPTED_PARAMS, :DEFAULT_PARAMS
 
-    def initialize(entity, &block)
+    def initialize(entity)
       @entity = entity
       @inner_elements = []
-      block.call(self) if block_given?
+      yield(self) if block_given?
     end
 
     def build(params = {})
@@ -114,6 +114,6 @@ module HexletCode
   def self.form_for(entity, params = {})
     raise 'Block not given' unless block_given?
 
-    FormBuilder.new(entity) { yield if block_given? }.build(params)
+    FormBuilder.new(entity) { |f| yield(f) if block_given? }.build(params)
   end
 end
