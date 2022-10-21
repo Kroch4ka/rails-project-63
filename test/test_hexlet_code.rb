@@ -50,7 +50,9 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_with_empty_block_form_for
-    form = HexletCode.form_for(@test_user) {}
+    form = HexletCode.form_for(@test_user) do
+
+    end
 
     assert { form == %(<form action="#" method="post"></form>) }
   end
@@ -62,8 +64,8 @@ class TestHexletCode < Minitest::Test
 
     assert do
       form.eql? '<form action="#" method="post">' \
-      '<label for="name">name</label'
-      '<input type="text" name="name" value="Nikita"></form>'
+                '<label for="name">name</label'
+                '<input type="text" name="name" value="Nikita"></form>'
     end
   end
 
@@ -74,15 +76,14 @@ class TestHexletCode < Minitest::Test
 
     assert do
       form.eql? '<form action="#" method="post">' \
-                    '<label for="surname">surname</label>'
-      '<textarea cols="20" rows="40" name="surname" value="Golubev">' \
-      '</textarea></form>'
+                '<label for="surname">surname</label>'
+                '<textarea cols="20" rows="40" name="surname" value="Golubev">' \
+                '</textarea></form>'
     end
   end
 
   def test_params_form_for
-    form = HexletCode.form_for @test_user, url: 'hash' do |f|
-    end
+    form = HexletCode.form_for @test_user, url: 'hash'
 
     assert { form == %(<form action="hash" method="post"></form>) }
   end
