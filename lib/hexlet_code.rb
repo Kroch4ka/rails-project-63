@@ -13,12 +13,12 @@ module HexletCode
 
     private_constant :SINGLE, :DOUBLE
 
-    def self.build(name, params = {}, &block)
+    def self.build(name, params = {})
       raise 'I dont know this tag' unless SINGLE.include?(name) || DOUBLE.include?(name)
       raise 'Is not hash!' unless params.instance_of?(Hash)
 
       return process_single_tags(name, params) if SINGLE.include? name
-      return process_double_tags(name, params, &block) if DOUBLE.include? name
+      return process_double_tags(name, params) { yield if block_given? } if DOUBLE.include? name
     end
 
     def self.process_params(params = {})
@@ -33,8 +33,8 @@ module HexletCode
       %(<#{name}#{process_params(params)}>)
     end
 
-    def self.process_double_tags(name, params = {}, &block)
-      %(<#{name}#{process_params(params)}>#{block.call if block_given?}</#{name}>)
+    def self.process_double_tags(name, params = {})
+      %(<#{name}#{process_params(params)}>#{yield if block_given?}</#{name}>)
     end
   end
 
@@ -111,9 +111,9 @@ module HexletCode
     attr_reader :entity, :inner_elements
   end
 
-  def self.form_for(entity, params = {}, &block)
+  def self.form_for(entity, params = {})
     raise 'Block not given' unless block_given?
 
-    FormBuilder.new(entity, &block).build(params)
+    FormBuilder.new(entity) { yield if block_given? }.build(params)
   end
 end
