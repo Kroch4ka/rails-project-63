@@ -52,7 +52,7 @@ class TestHexletCode < Minitest::Test
   def test_with_empty_block_form_for
     form = HexletCode.form_for(@test_user) {}
 
-    assert { form == %(<form action="#" method="POST"></form>) }
+    assert { form == %(<form action="#" method="post"></form>) }
   end
 
   def test_with_simple_input_form_for
@@ -61,7 +61,7 @@ class TestHexletCode < Minitest::Test
     end
 
     assert do
-      form.eql? "<form action=\"#\" method=\"POST\">"\
+      form.eql? "<form action=\"#\" method=\"post\">"\
       "<label for=\"name\">name</label"
       "<input type=\"text\" name=\"name\" value=\"Nikita\"></form>"
     end
@@ -73,9 +73,9 @@ class TestHexletCode < Minitest::Test
     end
 
     assert do
-      form.eql? "<form action=\"#\" method=\"POST\">"\
+      form.eql? "<form action=\"#\" method=\"post\">"\
                     "<label for=\"surname\">surname</label>"
-      "<textarea cols=\"50\" rows=\"50\" name=\"surname\" value=\"Golubev\">"\
+      "<textarea cols=\"20\" rows=\"40\" name=\"surname\" value=\"Golubev\">"\
       "</textarea></form>"
     end
   end
@@ -84,14 +84,14 @@ class TestHexletCode < Minitest::Test
     form = HexletCode.form_for @test_user, url: "hash" do |f|
     end
 
-    assert { form == %(<form action="hash" method="POST"></form>) }
+    assert { form == %(<form action="hash" method="post"></form>) }
   end
 
   def test_submit_func_form_for
     form = HexletCode.form_for @test_user, &:submit
 
     assert do
-      form == "<form action=\"#\" method=\"POST\">"\
+      form == "<form action=\"#\" method=\"post\">"\
               "<input value=\"Save\" type=\"submit\"></form>"
     end
   end
