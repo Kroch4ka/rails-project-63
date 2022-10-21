@@ -43,14 +43,14 @@ module HexletCode
     DEFAULT_PARAMS = {
       form: {
         action: "#",
-        method: "POST"
+        method: "post"
       }.freeze,
       input: {
         type: "text"
       }.freeze,
       textarea: {
-        cols: "50",
-        rows: "50"
+        cols: "20",
+        rows: "40"
       }.freeze
     }.freeze
 
@@ -70,7 +70,6 @@ module HexletCode
 
     def build(params = {})
       params = set_default_params(params, DEFAULT_PARAMS[:form])
-      params[:method] = params[:method].upcase
 
       Tag.build("form", params) { @inner_elements.join }
     end
