@@ -52,7 +52,7 @@ class TestHexletCode < Minitest::Test
   def test_with_empty_block_form_for
     form = HexletCode.form_for(@test_user) {}
 
-    assert { form == %(<form action="#" method="POST"><input value="Save" type="submit"></form>) }
+    assert { form == %(<form action="#" method="POST"></form>) }
   end
 
   def test_with_simple_input_form_for
@@ -84,7 +84,7 @@ class TestHexletCode < Minitest::Test
     form = HexletCode.form_for @test_user, url: "hash" do |f|
     end
 
-    assert { form == %(<form action="hash" method="POST"><input value="Save" type="submit"></form>) }
+    assert { form == %(<form action="hash" method="POST"></form>) }
   end
 
   def test_submit_func_form_for
